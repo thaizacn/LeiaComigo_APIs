@@ -1,10 +1,10 @@
 package br.com.tcn.leiacomigo.controller;
 
+import br.com.tcn.leiacomigo.dto.UsuarioReturnDTO;
+import br.com.tcn.leiacomigo.service.UsuariosService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.tcn.leiacomigo.dto.UsuarioDTO;
 import br.com.tcn.leiacomigo.repository.UsuariosRepository;
@@ -13,36 +13,21 @@ import br.com.tcn.leiacomigo.repository.UsuariosRepository;
 @RequestMapping("/api/usuarios")
 public class UsuariosController {
 
-	private final UsuariosRepository usuariosRepository;
+    @Autowired
+    private UsuariosService usuariosService;
 
-	public UsuariosController(UsuariosRepository usuariosRepository) {
-	    this.usuariosRepository = usuariosRepository;
-	}
-
-
-    @PostMapping("/registrar")
-    public ResponseEntity<String> registerUser(@RequestBody UsuarioDTO usuario) {
-        // Verifica se o usuário já está cadastrado
-        if (usuariosRepository.existsByNomeUsuario(usuario.getNomeUsuario())) {
-            return ResponseEntity.badRequest().body("Nome de usuário já existe");
-        }
-        // Salva o usuário no banco de dados
-        usuariosRepository.save(usuario); 
-        return ResponseEntity.ok("Cadastro realizado com sucesso");
+    @PostMapping("/cadastrar")
+    public ResponseEntity<UsuarioReturnDTO> cadastrarUsuario(@RequestBody UsuarioDTO usuario) {
+        return  ResponseEntity.ok(usuariosService.cadastrarUsuario(usuario));
     }
 
     @PostMapping("/entrar")
-    public ResponseEntity<String> loginUser(@RequestBody UsuarioDTO usuario) {
-        // Verifica se o usuário existe
-        if (!usuariosRepository.existsByNomeUsuario(usuario.getNomeUsuario())) {
-            return ResponseEntity.badRequest().body("Nome de usuário inválido");
-        }
-        // Verifica se a senha está correta
-        UsuarioDTO existingUser = usuariosRepository.findByNomeUsuario(usuario.getNomeUsuario());
-        if (!existingUser.getSenha().equals(usuario.getSenha())) {
-            return ResponseEntity.badRequest().body("Senha incorreta");
-        }
-        
-        return ResponseEntity.ok("Login realizado com sucesso");
+    public void entrarUsuario(@RequestBody UsuarioDTO usuario) {
+        usuariosService.entrarUsuario(usuario);
+    }
+
+    @GetMapping("/perfil")
+    public ResponseEntity<UsuarioDTO> informacoesPerfilUsuario(@RequestParam String nomeUsuario){
+       return ResponseEntity.ok(usuariosService.informacoesPerfilUsuario(nomeUsuario));
     }
 }
