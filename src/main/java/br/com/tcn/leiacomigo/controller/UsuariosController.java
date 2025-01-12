@@ -30,4 +30,9 @@ public class UsuariosController {
     public ResponseEntity<UsuarioDTO> informacoesPerfilUsuario(@RequestParam String nomeUsuario){
        return ResponseEntity.ok(usuariosService.informacoesPerfilUsuario(nomeUsuario));
     }
+
+    @PutMapping("/perfil")
+    public void editarInformacoesPerfilUsuario(@RequestBody UsuarioDTO usuario){
+        //TODO: Elaborar edição
+    }
 }
