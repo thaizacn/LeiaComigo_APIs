@@ -37,14 +37,14 @@ public class UsuarioService {
         return UsuarioReturnDTO.builder().id(usuarioEntity.getIdUsuario()).build();
     }
 
-    public void entrarUsuario(Usuario usuario){
+    public void entrarUsuario(String nomeUsuario, String senha) {
         // Verifica se o usuário existe
-        if (!usuarioRepository.existsByNomeUsuario(usuario.getNomeUsuario())) {
-            throw new BadRequestException("Nome de usuário inválido");
+        if (!usuarioRepository.existsByNomeUsuario(nomeUsuario)) {
+            throw new BadRequestException("Usuário inválido");
         }
         // Verifica se a senha está correta
-        Usuario existingUser = usuarioRepository.findByNomeUsuario(usuario.getNomeUsuario());
-        if (!existingUser.getSenha().equals(usuario.getSenha())) {
+        Usuario existingUser = usuarioRepository.findByNomeUsuario(nomeUsuario);
+        if (!existingUser.getSenha().equals(senha)) {
             throw new BadRequestException("Senha incorreta");
         }
     }
