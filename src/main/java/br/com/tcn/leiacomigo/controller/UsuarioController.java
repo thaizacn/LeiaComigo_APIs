@@ -21,9 +21,9 @@ public class UsuarioController {
         return  ResponseEntity.ok(usuarioService.cadastrarUsuario(usuario));
     }
 
-    @PostMapping("/entrar")
-    public void entrarUsuario(@RequestBody Usuario usuario) {
-        usuarioService.entrarUsuario(usuario);
+    @GetMapping("/entrar")
+    public void entrarUsuario(@RequestParam String nomeUsuario, @RequestParam String senha) {
+        usuarioService.entrarUsuario(nomeUsuario, senha);
     }
 
     @GetMapping("/perfil")
