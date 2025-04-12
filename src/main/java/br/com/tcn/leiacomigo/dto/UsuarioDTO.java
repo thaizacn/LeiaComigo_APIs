@@ -1,38 +1,22 @@
 package br.com.tcn.leiacomigo.dto;
 
-import java.util.Date;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "usuarios")
+import java.time.LocalDate;
+import java.util.Date;
+
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioDTO {
 
-	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Column(name = "email")
 	private String email;
-
-	@Column(name = "nomeCompleto")
 	private String nomeCompleto;
-
-	@Column(name = "nomeUsuario")
 	private String nomeUsuario;
-
-	@Column(name = "senha")
 	private String senha;
-
-	@Column(name = "dataDeNascimento")
 	private Date dataDeNascimento;
 }
